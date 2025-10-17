@@ -3,8 +3,8 @@
 
 import cv2
 
-# USBカメラを初期化（通常は0番が最初のカメラ）
-camera_index = 0
+# USBカメラを初期化（Raspberry Pi 5ではUSBカメラは通常video8）
+camera_index = 8
 cap = cv2.VideoCapture(camera_index)
 
 # カメラが正常に開かれたかを確認
