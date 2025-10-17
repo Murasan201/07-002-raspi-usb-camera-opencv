@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import cv2
+import os
 
 # USBカメラを初期化（Raspberry Pi 5ではUSBカメラは通常video8）
 camera_index = 8
@@ -25,10 +26,13 @@ print(f"カメラ解像度: {frame_width}x{frame_height}, FPS: {fps}")
 
 # 動画エンコーダーの設定
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('usb_video.avi', fourcc, fps, (frame_width, frame_height))
+save_path = os.path.abspath("usb_video.avi")
+out = cv2.VideoWriter(save_path, fourcc, fps, (frame_width, frame_height))
 
 print("動画録画を開始します")
 print("rキーで録画開始/停止、qキーで終了")
+print("※プレビューウィンドウをクリックしてフォーカスを合わせてください")
+print(f"保存先: {save_path}")
 
 recording = False
 
@@ -56,9 +60,9 @@ while True:
     if key == ord('r'):
         recording = not recording
         if recording:
-            print("録画開始")
+            print("✓ 録画開始")
         else:
-            print("録画停止")
+            print("✓ 録画停止")
 
     # qキーで終了
     elif key == ord('q'):
@@ -69,4 +73,4 @@ cap.release()
 out.release()
 cv2.destroyAllWindows()
 
-print("動画 'usb_video.avi' が保存されました")
+print(f"✓ 動画が保存されました: {save_path}")

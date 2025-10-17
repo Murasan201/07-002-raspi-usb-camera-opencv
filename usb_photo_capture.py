@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import cv2
+import os
 
 # USBカメラを初期化（Raspberry Pi 5ではUSBカメラは通常video8）
 camera_index = 8
@@ -14,6 +15,11 @@ if not cap.isOpened():
 
 print("カメラが正常に接続されました")
 print("スペースキーを押して写真を撮影、qキーで終了")
+print("※プレビューウィンドウをクリックしてフォーカスを合わせてください")
+
+# 保存先のパスを取得
+save_path = os.path.abspath("usb_photo.jpg")
+print(f"保存先: {save_path}")
 
 while True:
     # フレームを読み取り
@@ -31,8 +37,11 @@ while True:
 
     # スペースキーで撮影
     if key == ord(' '):
-        cv2.imwrite("usb_photo.jpg", frame)
-        print("写真 'usb_photo.jpg' が保存されました")
+        success = cv2.imwrite(save_path, frame)
+        if success:
+            print(f"✓ 写真が保存されました: {save_path}")
+        else:
+            print(f"✗ エラー: 写真の保存に失敗しました")
 
     # qキーで終了
     elif key == ord('q'):
